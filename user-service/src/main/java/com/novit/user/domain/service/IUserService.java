@@ -1,7 +1,7 @@
-package com.novit.user.mvc.service;
+package com.novit.user.domain.service;
 
 import com.novit.user.common.ServerResponse;
-import com.novit.user.mvc.model.User;
+import com.novit.user.domain.model.User;
 
 
 public interface IUserService {

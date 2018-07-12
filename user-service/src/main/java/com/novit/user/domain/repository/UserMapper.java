@@ -1,6 +1,6 @@
-package com.novit.user.mvc.repository;
+package com.novit.user.domain.repository;
 
-import com.novit.user.mvc.model.User;
+import com.novit.user.domain.model.User;
 import org.apache.ibatis.annotations.Param;
 
 public interface UserMapper {

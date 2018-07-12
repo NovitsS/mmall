@@ -1,10 +1,10 @@
-package com.novit.user.mvc.service;
+package com.novit.user.domain.service;
 
 import com.novit.user.common.Const;
 import com.novit.user.common.ServerResponse;
 import com.novit.user.common.TokenCache;
-import com.novit.user.mvc.model.User;
-import com.novit.user.mvc.repository.UserMapper;
+import com.novit.user.domain.model.User;
+import com.novit.user.domain.repository.UserMapper;
 import com.novit.user.until.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package com.novit.user.mvc.model;
+package com.novit.user.domain.model;
 
 import java.util.Date;
 
