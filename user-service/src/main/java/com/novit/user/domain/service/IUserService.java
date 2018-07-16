@@ -2,8 +2,9 @@ package com.novit.user.domain.service;
 
 import com.novit.user.common.ServerResponse;
 import com.novit.user.domain.model.User;
+import org.apache.ibatis.annotations.Mapper;
 
-
+@Mapper
 public interface IUserService {
     ServerResponse<User> login(String username, String password);//通过泛型实现通用数据响应对象
 

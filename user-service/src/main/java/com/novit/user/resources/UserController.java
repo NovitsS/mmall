@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
@@ -127,6 +128,12 @@ public class UserController {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"未登录,需要强制登录status=10");//status=10就是NEED_LOGIN的状态码10，一旦传10就要强制登录
         }
         return iUserService.getInformation(currentUser.getId());
+    }
+
+    @RequestMapping(value="/check_admin")
+    @ResponseBody
+    public String check_admin(@RequestParam(value = "admin_name") String user){
+        return user;
     }
 
 }
