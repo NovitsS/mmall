@@ -132,8 +132,11 @@ public class UserController {
 
     @RequestMapping(value="/check_admin")
     @ResponseBody
-    public String check_admin(@RequestParam(value = "admin_name") String user){
-        return user;
+    public String check_admin(@RequestParam(value = "admin_name") int user){
+        if(user==Const.Role.ROLE_ADMIN){
+            return "1";
+        }
+        return "0";
     }
 
 }
