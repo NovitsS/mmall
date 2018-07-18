@@ -10,7 +10,6 @@ import com.novit.pro.domain.service.IFileService;
 import com.novit.pro.domain.service.IProductService;
 import com.novit.pro.until.PropertiesUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
