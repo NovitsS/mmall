@@ -26,10 +26,10 @@ public class UserServiceImpl implements IUserService {
         }
 
         //密码登录MD5
-        String md5Password = MD5Util.MD5EncodeUtf8(password);
+        //String md5Password = MD5Util.MD5EncodeUtf8(password);
 
         //检查用户名和密码是否正确
-        User user = userMapper.selectLogin(username, md5Password);//在插入数据库的时候密码已经被MD5加密过，此处sql要比较的就是加密后的password
+        User user = userMapper.selectLogin(username, password);//在插入数据库的时候密码已经被MD5加密过，此处sql要比较的就是加密后的password
         if (user == null) {
             return ServerResponse.createByErrorMessage("密码错误");//如果用户名不存在的话，上面就已经返回了，如果到了这，就是username和password没有匹配上
         }
@@ -61,7 +61,7 @@ public class UserServiceImpl implements IUserService {
 
         user.setRole(Const.Role.ROLE_CUSTOMER);
         //MD5加密
-        user.setPassword(MD5Util.MD5EncodeUtf8(user.getPassword()));
+        //user.setPassword(MD5Util.MD5EncodeUtf8(user.getPassword()));
         int resultCount = userMapper.insert(user);//将该user插入到数据库中
         if(resultCount == 0){//可能是db或其他出现了问题
             return ServerResponse.createByErrorMessage("注册失败");
@@ -129,8 +129,8 @@ public class UserServiceImpl implements IUserService {
         }
         //用StringUtils中的equals就不用考虑空指针问题，即第一个参数（equals前面的对象）可以为null
         if(org.apache.commons.lang3.StringUtils.equals(forgetToken,token)){
-            String md5Password  = MD5Util.MD5EncodeUtf8(passwordNew);
-            int rowCount = userMapper.updatePasswordByUsername(username,md5Password);//生效行数
+            //String md5Password  = MD5Util.MD5EncodeUtf8(passwordNew);
+            int rowCount = userMapper.updatePasswordByUsername(username,passwordNew);//生效行数
 
             if(rowCount > 0){
                 return ServerResponse.createBySuccessMessage("修改密码成功");

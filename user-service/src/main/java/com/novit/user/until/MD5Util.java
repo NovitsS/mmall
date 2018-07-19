@@ -45,8 +45,9 @@ public class MD5Util {
     }
 
     public static String MD5EncodeUtf8(String origin) {
-        origin = origin + PropertiesUtil.getProperty("password.salt", "");//key拿不到的时候才会用默认值
-        return MD5Encode(origin, "utf-8");
+        String t=null;
+        t = origin + PropertiesUtil.getProperty("password.salt", "");//key拿不到的时候才会用默认值
+        return MD5Encode(t, "utf-8");
     }
 
 

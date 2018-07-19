@@ -2,7 +2,9 @@ package com.novit.pro.resources;
 
 import com.github.pagehelper.PageInfo;
 import com.novit.pro.common.ServerResponse;
+import com.novit.pro.domain.model.Product;
 import com.novit.pro.domain.model.ProductDetailVo;
+import com.novit.pro.domain.repository.ProductMapper;
 import com.novit.pro.domain.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,8 @@ public class ProductController {
 
     @Autowired
     private IProductService iProductService;
+    @Autowired
+    private ProductMapper productMapper;
 
     //前台获取商品详情的接口
     @RequestMapping("detail.do")
@@ -33,5 +37,11 @@ public class ProductController {
                                          @RequestParam(value = "pageSize",defaultValue = "10") int pageSize,
                                          @RequestParam(value = "orderBy",defaultValue = "") String orderBy){
         return iProductService.getProductByKeywordCategory(keyword,categoryId,pageNum,pageSize,orderBy);
+    }
+
+    @RequestMapping("get")
+    @ResponseBody
+    public Product getPro(@RequestParam(value="id")int id){
+        return productMapper.selectByPrimaryKey(id);
     }
 }

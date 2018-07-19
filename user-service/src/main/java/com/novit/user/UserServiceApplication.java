@@ -13,8 +13,6 @@ import org.springframework.context.annotation.ImportResource;
 @ImportResource(value ="classpath:applicationContext.xml")
 public class UserServiceApplication {
     public static void main(String[] args){
-
         SpringApplication.run(UserServiceApplication.class,args);
     }
-
 }

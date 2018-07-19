@@ -100,9 +100,9 @@ public class ProductServiceImpl implements IProductService {
         productDetailVo.setName(product.getName());
         productDetailVo.setStatus(product.getStatus());
         productDetailVo.setStock(product.getStock());//库存
-
+        //TODO:property
         //imageHost要从配置文件中获取，配置和代码分离，不需要把URL硬编码到项目当中，如果图片服务器修改的话只需要改properties配置
-        productDetailVo.setImageHost(PropertiesUtil.getProperty("ftp.server.http.prefix","http://img.happymmall.com/"));//获取的时候会把http://img.happymmall.com/填充到imageHost里
+        //productDetailVo.setImageHost(PropertiesUtil.getProperty("ftp.server.http.prefix","http://img.happymmall.com/"));//获取的时候会把http://img.happymmall.com/填充到imageHost里
 
         //parentCategoryId
         Category category = categoryMapper.selectByPrimaryKey(product.getCategoryId());
@@ -142,7 +142,8 @@ public class ProductServiceImpl implements IProductService {
         productListVo.setId(product.getId());
         productListVo.setName(product.getName());
         productListVo.setCategoryId(product.getCategoryId());
-        productListVo.setImageHost(PropertiesUtil.getProperty("ftp.server.http.prefix","http://img.happymmall.com/"));
+        //TODO:property
+       // productListVo.setImageHost(PropertiesUtil.getProperty("ftp.server.http.prefix","http://img.happymmall.com/"));
         productListVo.setMainImage(product.getMainImage());
         productListVo.setPrice(product.getPrice());
         productListVo.setSubtitle(product.getSubtitle());

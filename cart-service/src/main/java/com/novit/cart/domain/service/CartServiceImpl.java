@@ -12,9 +12,11 @@ import com.novit.cart.common.ServerResponse;
 import com.novit.cart.domain.model.CartProductVo;
 import com.novit.cart.domain.model.CartVo;
 import com.novit.cart.domain.repository.CartMapper;
+import net.sf.json.JSONObject;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -24,6 +26,9 @@ public class CartServiceImpl implements ICartService {
 
     @Autowired
     private CartMapper cartMapper;
+
+    @Autowired
+    private RestTemplate restTemplate;
 
 
     public ServerResponse<CartVo> add(Integer userId, Integer productId, Integer count){
@@ -120,8 +125,9 @@ public class CartServiceImpl implements ICartService {
                 cartProductVo.setProductId(cartItem.getProductId());
                 //todo: 设计productAPI给查询产品提供服务
                 //查询购物车里的产品
-                //Product product = productMapper.selectByPrimaryKey(cartItem.getProductId());
-                Product product=null;
+                String str = restTemplate.getForObject("http://product-service/product/get?id=" + cartItem.getProductId(), String.class);
+                JSONObject o = JSONObject.fromObject(str);
+                Product product = (Product) JSONObject.toBean(o, Product.class);
                 if(product != null){//若product不为空的话就继续组装cartProductVo
                     cartProductVo.setProductMainImage(product.getMainImage());
                     cartProductVo.setProductName(product.getName());
@@ -160,7 +166,7 @@ public class CartServiceImpl implements ICartService {
         cartVo.setCartTotalPrice(cartTotalPrice);
         cartVo.setCartProductVoList(cartProductVoList);
         cartVo.setAllChecked(this.getAllCheckedStatus(userId));
-        cartVo.setImageHost(PropertiesUtil.getProperty("ftp.server.http.prefix"));
+        //cartVo.setImageHost(PropertiesUtil.getProperty("ftp.server.http.prefix"));
 
         return cartVo;
     }
