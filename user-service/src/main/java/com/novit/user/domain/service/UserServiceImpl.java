@@ -27,7 +27,6 @@ public class UserServiceImpl implements IUserService {
 
         //密码登录MD5
         //String md5Password = MD5Util.MD5EncodeUtf8(password);
-
         //检查用户名和密码是否正确
         User user = userMapper.selectLogin(username, password);//在插入数据库的时候密码已经被MD5加密过，此处sql要比较的就是加密后的password
         if (user == null) {

@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -117,6 +119,17 @@ public class CartController {
             return ServerResponse.createBySuccess(0);
         }
         return iCartService.getCartProductCount(user.getId());
+    }
+
+    @RequestMapping("test")
+    @ResponseBody
+    public String getSesionId(HttpServletRequest request){
+        Cookie[] cookies=request.getCookies();
+        String s = "hello";
+        for(int i=0;i<cookies.length;i++){
+            s=s+cookies[i].getValue();
+        }
+        return s;
     }
 
 }
