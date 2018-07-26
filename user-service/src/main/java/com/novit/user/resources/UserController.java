@@ -5,14 +5,16 @@ import com.novit.user.common.ResponseCode;
 import com.novit.user.common.ServerResponse;
 import com.novit.user.domain.model.User;
 import com.novit.user.domain.service.IUserService;
+import com.novit.user.until.MySessionContext;
+import org.apache.catalina.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 
 @Controller
 @RequestMapping("/user/")   //把请求地址全部打到/user/这个命名空间下
@@ -30,6 +32,7 @@ public class UserController {
         if(response.isSuccess()){
             session.setAttribute(Const.CURRENT_USER,response.getData());//如果成功就往session里面把用户放进来
         }
+        MySessionContext.AddSession(session);
         return response;
     }
 
@@ -38,6 +41,7 @@ public class UserController {
     @ResponseBody
     public ServerResponse<String> logout(HttpSession session){
         session.removeAttribute(Const.CURRENT_USER);//将添加的currentuser删除即可
+        MySessionContext.getSession(session.getId()).removeAttribute(Const.CURRENT_USER);
         return ServerResponse.createBySuccess();
     }
 
@@ -139,5 +143,16 @@ public class UserController {
         return "0";
     }
 
+    @RequestMapping(value ="/check_session")
+    @ResponseBody
+    public String check_session(@RequestParam(value="sessionId")String id){
+        HttpSession session=MySessionContext.getSession(id);
+        if(session==null)
+            return "false";
+        User user=(User)session.getAttribute(Const.CURRENT_USER);
+        if(user!=null)
+            return user.getId().toString();
+        else return "false";
+    }
 }
 

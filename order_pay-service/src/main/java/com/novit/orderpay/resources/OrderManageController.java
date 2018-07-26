@@ -1,18 +1,18 @@
 package com.novit.orderpay.resources;
 
 import com.github.pagehelper.PageInfo;
-import com.mmall.pojo.User;
-import com.mmall.service.IOrderService;
-import com.mmall.service.IUserService;
 import com.novit.orderpay.common.Const;
 import com.novit.orderpay.common.ResponseCode;
 import com.novit.orderpay.common.ServerResponse;
 import com.novit.orderpay.domain.model.OrderVo;
+import com.novit.orderpay.domain.model.User;
+import com.novit.orderpay.domain.service.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpSession;
 
@@ -20,7 +20,7 @@ import javax.servlet.http.HttpSession;
 @RequestMapping("/manage/order")
 public class OrderManageController {
     @Autowired
-    private IUserService iUserService;
+    private RestTemplate restTemplate;
     @Autowired
     private IOrderService iOrderService;
 
@@ -29,8 +29,9 @@ public class OrderManageController {
     @ResponseBody
     public ServerResponse<PageInfo> orderList(HttpSession session, @RequestParam(value = "pageNum",defaultValue = "1") int pageNum,
                                               @RequestParam(value = "pageSize",defaultValue = "10")int pageSize){
-        User user = (User)session.getAttribute(Const.CURRENT_USER);//从session中获取用户，判断登录
-        if(user == null){//只有是管理员才能操作
+        //User user = (User)session.getAttribute(Const.CURRENT_USER);//从session中获取用户
+        String str=restTemplate.getForObject("http://user-service/user/check_session?sessionId="+session.getId(),String.class);
+        if(str.equals("false")){//只有在登录的状态下才能操作
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录,请登录管理员");
         }
         if(iUserService.checkAdminRole(user).isSuccess()){
